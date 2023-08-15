@@ -66,7 +66,7 @@ _background_tasks = set()
 LRU_CACHE_SIZE = get_config("dispatcher.asset_cache_size")
 
 
-@router.get("/assets/{dispatch_id}/node/{node_id}/{key}")
+@router.get("/dispatches/{dispatch_id}/electron/{node_id}/assets/{key}")
 def get_node_asset(
     dispatch_id: str,
     node_id: int,
@@ -74,6 +74,17 @@ def get_node_asset(
     representation: Union[AssetRepresentation, None] = None,
     Range: Union[str, None] = Header(default=None, regex=range_regex),
 ):
+    """Returns an asset for an electron.
+
+    Args:
+        dispatch_id: The dispatch's unique id.
+        node_id: The id of the electron.
+        key: The name of the asset
+        representation: (optional) the representation ("string" or "pickle") of a `TransportableObject`
+        range: (optional) range request header
+
+    If `representation` is specified, it will override the range request.
+    """
     start_byte = 0
     end_byte = -1
 
@@ -116,13 +127,23 @@ def get_node_asset(
         raise
 
 
-@router.get("/assets/{dispatch_id}/dispatch/{key}")
+@router.get("/dispatches/{dispatch_id}/assets/{key}")
 def get_dispatch_asset(
     dispatch_id: str,
     key: DispatchAssetKey,
     representation: Union[AssetRepresentation, None] = None,
     Range: Union[str, None] = Header(default=None, regex=range_regex),
 ):
+    """Returns a dynamic asset for a workflow
+
+    Args:
+        dispatch_id: The dispatch's unique id.
+        key: The name of the asset
+        representation: (optional) the representation ("string" or "pickle") of a `TransportableObject`
+        range: (optional) range request header
+
+    If `representation` is specified, it will override the range request.
+    """
     start_byte = 0
     end_byte = -1
 
@@ -162,13 +183,23 @@ def get_dispatch_asset(
         raise
 
 
-@router.get("/assets/{dispatch_id}/lattice/{key}")
+@router.get("/dispatches/{dispatch_id}/lattice/assets/{key}")
 def get_lattice_asset(
     dispatch_id: str,
     key: LatticeAssetKey,
     representation: Union[AssetRepresentation, None] = None,
     Range: Union[str, None] = Header(default=None, regex=range_regex),
 ):
+    """Returns a static asset for a workflow
+
+    Args:
+        dispatch_id: The dispatch's unique id.
+        key: The name of the asset
+        representation: (optional) the representation ("string" or "pickle") of a `TransportableObject`
+        range: (optional) range request header
+
+    If `representation` is specified, it will override the range request.
+    """
     start_byte = 0
     end_byte = -1
 
@@ -209,7 +240,7 @@ def get_lattice_asset(
         raise e
 
 
-@router.post("/assets/{dispatch_id}/node/{node_id}/{key}")
+@router.post("/dispatches/{dispatch_id}/electron/{node_id}/assets/{key}")
 def upload_node_asset(
     dispatch_id: str,
     node_id: int,
@@ -218,6 +249,16 @@ def upload_node_asset(
     content_length: int = Header(),
     digest: Union[str, None] = Header(default=None, regex=digest_regex),
 ):
+    """Upload an electron asset.
+
+    Args:
+        dispatch_id: The dispatch's unique id.
+        node_id: The electron id.
+        key: The name of the asset
+        asset_file: (body) The file to be uploaded
+        content_length: (header)
+        digest: (header)
+    """
     app_log.debug(f"Requested asset {key} for node {dispatch_id}:{node_id}")
 
     try:
@@ -243,7 +284,7 @@ def upload_node_asset(
         raise
 
 
-@router.post("/assets/{dispatch_id}/dispatch/{key}")
+@router.post("/dispatches/{dispatch_id}/assets/{key}")
 def upload_dispatch_asset(
     dispatch_id: str,
     key: DispatchAssetKey,
@@ -251,6 +292,15 @@ def upload_dispatch_asset(
     content_length: int = Header(),
     digest: Union[str, None] = Header(default=None, regex=digest_regex),
 ):
+    """Upload a dispatch asset.
+
+    Args:
+        dispatch_id: The dispatch's unique id.
+        key: The name of the asset
+        asset_file: (body) The file to be uploaded
+        content_length: (header)
+        digest: (header)
+    """
     try:
         result_object = get_cached_result_object(dispatch_id)
 
@@ -272,7 +322,7 @@ def upload_dispatch_asset(
         raise
 
 
-@router.post("/assets/{dispatch_id}/lattice/{key}")
+@router.post("/dispatches/{dispatch_id}/lattice/assets/{key}")
 def upload_lattice_asset(
     dispatch_id: str,
     key: LatticeAssetKey,
@@ -280,6 +330,15 @@ def upload_lattice_asset(
     content_length: int = Header(),
     digest: Union[str, None] = Header(default=None, regex=digest_regex),
 ):
+    """Upload a lattice asset.
+
+    Args:
+        dispatch_id: The dispatch's unique id.
+        key: The name of the asset
+        asset_file: (body) The file to be uploaded
+        content_length: (header)
+        digest: (header)
+    """
     try:
         result_object = get_cached_result_object(dispatch_id)
 

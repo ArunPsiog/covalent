@@ -249,8 +249,8 @@ class LocalDispatcher(BaseDispatcher):
         if dispatcher_addr is None:
             dispatcher_addr = format_server_url()
 
-        endpoint = f"/api/v2/dispatches/start/{dispatch_id}"
-        r = APIClient(dispatcher_addr).put(endpoint)
+        endpoint = f"/api/v2/dispatches/{dispatch_id}"
+        r = APIClient(dispatcher_addr).post(endpoint)
         r.raise_for_status()
         return r.content.decode("utf-8").strip().replace('"', "")
 
@@ -546,10 +546,10 @@ class LocalDispatcher(BaseDispatcher):
         else:
             stripped = manifest
 
-        endpoint = "/api/v2/dispatches/register"
+        endpoint = "/api/v2/dispatches"
 
         if parent_dispatch_id:
-            endpoint = f"{endpoint}?parent_dispatch_id={parent_dispatch_id}"
+            endpoint = f"{endpoint}/{parent_dispatch_id}/subdispatches"
 
         r = APIClient(dispatcher_addr).post(endpoint, data=stripped.json())
         r.raise_for_status()
@@ -578,7 +578,7 @@ class LocalDispatcher(BaseDispatcher):
         # We don't yet support pulling assets for redispatch
         stripped = strip_local_uris(manifest)
 
-        endpoint = f"/api/v2/dispatches/register/{dispatch_id}"
+        endpoint = f"/api/v2/dispatches/{dispatch_id}/redispatches"
 
         params = {"reuse_previous_results": reuse_previous_results}
         r = APIClient(dispatcher_addr).post(endpoint, data=stripped.json(), params=params)
