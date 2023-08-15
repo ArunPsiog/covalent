@@ -134,12 +134,12 @@ def cancel(dispatch_id: str, task_ids: List[int] = None, dispatcher_addr: str = 
         task_ids = []
 
     api_client = CovalentAPIClient(dispatcher_addr)
-    endpoint = "/api/v2/dispatches/cancel"
+    endpoint = f"/api/v2/dispatches/{dispatch_id}/run"
 
     if isinstance(task_ids, int):
         task_ids = [task_ids]
 
-    r = api_client.post(endpoint, json={"dispatch_id": dispatch_id, "task_ids": task_ids})
+    r = api_client.delete(endpoint, params={"task_ids": task_ids})
     return r.content.decode("utf-8").strip().replace('"', "")
 
 
@@ -176,7 +176,7 @@ def _get_result_export_from_dispatcher(
     adapter = HTTPAdapter(max_retries=Retry(total=retries, backoff_factor=1))
     api_client = CovalentAPIClient(dispatcher_addr, adapter=adapter, auto_raise=False)
 
-    endpoint = "/api/v2/dispatches/export/" + dispatch_id
+    endpoint = f"/api/v2/dispatches/{dispatch_id}"
     response = api_client.get(
         endpoint,
         params={"wait": wait, "status_only": status_only},
