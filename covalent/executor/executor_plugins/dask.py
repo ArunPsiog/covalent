@@ -259,7 +259,7 @@ class DaskExecutor(AsyncBaseExecutor):
         #     app_log.debug(f"In done callback for {dispatch_id}:{gid}, future {fut}")
         #     if fut.cancelled():
         #         for task_id in task_ids:
-        #             url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/job"
+        #             url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/job"
         #             requests.put(url, json={"status": "CANCELLED"})
 
         # future.add_done_callback(handle_cancelled)

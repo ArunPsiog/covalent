@@ -188,7 +188,7 @@ def run_task_from_uris(
                     args_ids = task["args_ids"]
                     kwargs_ids = task["kwargs_ids"]
 
-                    function_uri = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/assets/function"
+                    function_uri = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/assets/function"
 
                     # Download function
                     resp = requests.get(function_uri, stream=True)
@@ -200,29 +200,29 @@ def run_task_from_uris(
 
                     # Download args and kwargs
                     for node_id in args_ids:
-                        url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{node_id}/assets/output"
+                        url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{node_id}/assets/output"
                         resp = requests.get(url, stream=True)
                         resp.raise_for_status()
                         ser_args.append(deserialize_node_asset(resp.content, "output"))
 
                     for k, node_id in kwargs_ids.items():
-                        url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{node_id}/assets/output"
+                        url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{node_id}/assets/output"
                         resp = requests.get(url, stream=True)
                         resp.raise_for_status()
                         ser_kwargs[k] = deserialize_node_asset(resp.content, "output")
 
                     # Download deps
-                    deps_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/assets/deps"
+                    deps_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/assets/deps"
                     resp = requests.get(deps_url, stream=True)
                     resp.raise_for_status()
                     deps_json = deserialize_node_asset(resp.content, "deps")
 
-                    cb_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/assets/call_before"
+                    cb_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/assets/call_before"
                     resp = requests.get(cb_url, stream=True)
                     resp.raise_for_status()
                     call_before_json = deserialize_node_asset(resp.content, "call_before")
 
-                    ca_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/assets/call_after"
+                    ca_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/assets/call_after"
                     resp = requests.get(ca_url, stream=True)
                     resp.raise_for_status()
                     call_after_json = deserialize_node_asset(resp.content, "call_after")
@@ -268,21 +268,21 @@ def run_task_from_uris(
                 finally:
                     # POST task artifacts
                     if result_uri:
-                        upload_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/assets/output"
+                        upload_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/assets/output"
                         with open(result_uri, "rb") as f:
                             files = {"asset_file": f}
                             requests.post(upload_url, files=files)
 
                     sys.stdout.flush()
                     if stdout_uri:
-                        upload_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/assets/stdout"
+                        upload_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/assets/stdout"
                         with open(stdout_uri, "rb") as f:
                             files = {"asset_file": f}
                             requests.post(upload_url, files=files)
 
                     sys.stderr.flush()
                     if stderr_uri:
-                        upload_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/assets/stderr"
+                        upload_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/assets/stderr"
                         with open(stderr_uri, "rb") as f:
                             files = {"asset_file": f}
                             requests.post(upload_url, files=files)
@@ -296,7 +296,7 @@ def run_task_from_uris(
 
                     # Notify Covalent that the task has terminated
                     terminal_status = "FAILED" if exception_occurred else "COMPLETED"
-                    url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/job"
+                    url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/job"
                     data = {"status": terminal_status}
                     requests.put(url, json=data)
 
@@ -319,7 +319,7 @@ def run_task_from_uris(
             with open(result_path, "w") as f:
                 json.dump(result_summary, f)
 
-            url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/{task_id}/job"
+            url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/{task_id}/job"
             requests.put(url)
 
 

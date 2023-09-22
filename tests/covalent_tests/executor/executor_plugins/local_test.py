@@ -276,32 +276,34 @@ def test_run_task_from_uris(mocker):
     node_0_file = tempfile.NamedTemporaryFile("wb")
     node_0_file.write(ser_task)
     node_0_file.flush()
-    node_0_function_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/0/assets/function"
+    node_0_function_url = (
+        f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/0/assets/function"
+    )
 
     deps_file = tempfile.NamedTemporaryFile("wb")
     deps_file.write(ser_deps)
     deps_file.flush()
-    deps_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/0/assets/deps"
+    deps_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/0/assets/deps"
 
     cb_file = tempfile.NamedTemporaryFile("wb")
     cb_file.write(ser_cb)
     cb_file.flush()
-    cb_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/0/assets/call_before"
+    cb_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/0/assets/call_before"
 
     ca_file = tempfile.NamedTemporaryFile("wb")
     ca_file.write(ser_ca)
     ca_file.flush()
-    ca_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/0/assets/call_after"
+    ca_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/0/assets/call_after"
 
     node_1_file = tempfile.NamedTemporaryFile("wb")
     node_1_file.write(ser_x)
     node_1_file.flush()
-    node_1_output_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/1/assets/output"
+    node_1_output_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/1/assets/output"
 
     node_2_file = tempfile.NamedTemporaryFile("wb")
     node_2_file.write(ser_y)
     node_2_file.flush()
-    node_2_output_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/2/assets/output"
+    node_2_output_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/2/assets/output"
 
     task_spec = TaskSpec(
         function_id=0,
@@ -403,32 +405,34 @@ def test_run_task_from_uris_exception(mocker):
     node_0_file = tempfile.NamedTemporaryFile("wb")
     node_0_file.write(ser_task)
     node_0_file.flush()
-    node_0_function_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/0/assets/function"
+    node_0_function_url = (
+        f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/0/assets/function"
+    )
 
     deps_file = tempfile.NamedTemporaryFile("wb")
     deps_file.write(ser_deps)
     deps_file.flush()
-    deps_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/0/assets/deps"
+    deps_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/0/assets/deps"
 
     cb_file = tempfile.NamedTemporaryFile("wb")
     cb_file.write(ser_cb)
     cb_file.flush()
-    cb_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/0/assets/call_before"
+    cb_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/0/assets/call_before"
 
     ca_file = tempfile.NamedTemporaryFile("wb")
     ca_file.write(ser_ca)
     ca_file.flush()
-    ca_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/0/assets/call_after"
+    ca_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/0/assets/call_after"
 
     node_1_file = tempfile.NamedTemporaryFile("wb")
     node_1_file.write(ser_x)
     node_1_file.flush()
-    node_1_output_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/1/assets/output"
+    node_1_output_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/1/assets/output"
 
     node_2_file = tempfile.NamedTemporaryFile("wb")
     node_2_file.write(ser_y)
     node_2_file.flush()
-    node_2_output_url = f"{server_url}/api/v1/dispatch/{dispatch_id}/electron/2/assets/output"
+    node_2_output_url = f"{server_url}/api/v2/dispatches/{dispatch_id}/electrons/2/assets/output"
 
     task_spec = TaskSpec(
         function_id=0,
