@@ -65,9 +65,13 @@ Constructing Workflows
 
 :doc:`Constructing a Task from Bash Scripts <./coding/construct_bash_task>`
 
-:doc:`How to add a directory trigger to a lattice <./coding/dir_trigger>`
+:doc:`How to add a directory trigger to a lattice <./execution/trigger_dir>`
 
-:doc:`How to add a time trigger to a lattice <./coding/time_trigger>`
+:doc:`How to add a time trigger to a lattice <./execution/trigger_time>`
+
+:doc:`How to add a sqlite trigger to a lattice <./execution/trigger_sqlite>`
+
+:doc:`How to add a database trigger to a lattice <./execution/trigger_database>`
 
 .. _howto_executing:
 
