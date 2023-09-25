@@ -65,13 +65,13 @@ Constructing Workflows
 
 :doc:`Constructing a Task from Bash Scripts <./coding/construct_bash_task>`
 
-:doc:`How to add a directory trigger to a lattice <./execution/trigger_dir>`
+:doc:`How to add a Directory trigger to a lattice <./execution/trigger_dir>`
 
-:doc:`How to add a time trigger to a lattice <./execution/trigger_time>`
+:doc:`How to add a Time trigger to a lattice <./execution/trigger_time>`
 
-:doc:`How to add a sqlite trigger to a lattice <./execution/trigger_sqlite>`
+:doc:`How to add a Sqlite trigger to a lattice <./execution/trigger_sqlite>`
 
-:doc:`How to add a database trigger to a lattice <./execution/trigger_database>`
+:doc:`How to add a Database trigger to a lattice <./execution/trigger_database>`
 
 .. _howto_executing:
 
@@ -100,7 +100,15 @@ Executing a Workflow
 
 :doc:`Adding a Time Trigger to a Lattice <./execution/trigger_time>`
 
-:doc:`Adding a Directory Trigger to a Lattice <./execution/dir>`
+.. :doc:`Adding a Directory Trigger to a Lattice <./execution/dir>`
+
+:doc:`Adding a Directory trigger to a lattice <./execution/trigger_dir>`
+
+:doc:`Adding a Time trigger to a lattice <./execution/trigger_time>`
+
+:doc:`Adding a Sqlite trigger to a lattice <./execution/trigger_sqlite>`
+
+:doc:`Adding a Database trigger to a lattice <./execution/trigger_database>`
 
 :doc:`Canceling a Running Workflow <./execution/cancel_dispatch>`
 
